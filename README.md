@@ -1,6 +1,6 @@
 # Blazor WebAssembly Extensible Gateway
 
-[![unit tests](https://github.com/jsakamoto/Toolbelt.Blazor.WebAssembly.ExtensibleGateway/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/jsakamoto/Toolbelt.Blazor.WebAssembly.ExtensibleGateway/actions/workflows/unit-tests.yml) [![NuGet Package](https://img.shields.io/nuget/v/Toolbelt.Blazor.WebAssembly.ExtensibleGateway.svg)](https://www.nuget.org/packages/Toolbelt.Blazor.WebAssembly.ExtensibleGateway/) [![Discord](https://img.shields.io/discord/798312431893348414?style=flat&logo=discord&logoColor=white&label=Blazor%20Community&labelColor=5865f2&color=gray)](https://discord.com/channels/798312431893348414/1202165955900473375)
+[![tests](https://github.com/jsakamoto/Toolbelt.Blazor.WebAssembly.ExtensibleGateway/actions/workflows/tests.yml/badge.svg)](https://github.com/jsakamoto/Toolbelt.Blazor.WebAssembly.ExtensibleGateway/actions/workflows/tests.yml) [![NuGet Package](https://img.shields.io/nuget/v/Toolbelt.Blazor.WebAssembly.ExtensibleGateway.svg)](https://www.nuget.org/packages/Toolbelt.Blazor.WebAssembly.ExtensibleGateway/) [![Discord](https://img.shields.io/discord/798312431893348414?style=flat&logo=discord&logoColor=white&label=Blazor%20Community&labelColor=5865f2&color=gray)](https://discord.com/channels/798312431893348414/1202165955900473375)
 
 An alternative Blazor WebAssembly gateway server that can be extended with additional NuGet packages for custom middleware.
 
