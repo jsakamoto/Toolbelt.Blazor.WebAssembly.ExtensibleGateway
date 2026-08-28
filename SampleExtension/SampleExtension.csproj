@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../VersionInfo.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <AssemblyName>Toolbelt.Blazor.WebAssembly.ExtensibleGateway.SampleExtension</AssemblyName>
+    <PackageId>Toolbelt.Blazor.WebAssembly.ExtensibleGateway.SampleExtension</PackageId>
+    <Version>$(SampleExtensionVersion)</Version>
+    <Description>A sample extension for Toolbelt.Blazor.WebAssembly.ExtensibleGateway, for verification purposes only.</Description>
+    <PackageOutputPath>../_dist</PackageOutputPath>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <!-- Extensions are loaded by path, and their private dependencies are resolved by probing the
+         folder they live in, so every dependency has to sit next to the extension assembly. -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- PrivateAssets keeps this out of the "frameworkReferences" section of the .nuspec. An
+         extension ships a tool that the gateway loads, not a library that consumers compile
+         against, so nothing here should flow to the project that installs this package. -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="PackageContents/**/*" Pack="true" PackagePath="/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <Target Name="BundleAssemblies" BeforeTargets="GenerateNuspec;_GetPackageFiles" AfterTargets="Build">
+    <ItemGroup>
+      <None Include="$(TargetDir)/*.dll" Pack="true" PackagePath="/tools/$(TargetFramework)" />
+    </ItemGroup>
+  </Target>
+
+</Project>

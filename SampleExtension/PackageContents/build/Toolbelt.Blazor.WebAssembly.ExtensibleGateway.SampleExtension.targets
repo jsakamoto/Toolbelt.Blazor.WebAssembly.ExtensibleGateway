@@ -1,0 +1,9 @@
+<Project>
+
+  <Target Name="BzExGateway_SampleExtension_PrepareResponseFile" BeforeTargets="BzExGateway_GenerateResponseFile">
+    <ItemGroup>
+      <BzExGatewayAssemblyPath Include="$(MSBuildThisFileDirectory)../tools/net11.0/Toolbelt.Blazor.WebAssembly.ExtensibleGateway.SampleExtension.dll" />
+    </ItemGroup>
+  </Target>
+
+</Project>

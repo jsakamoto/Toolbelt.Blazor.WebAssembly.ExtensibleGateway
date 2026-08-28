@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../VersionInfo.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <NoBuild>true</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NuspecFile>ProjectTemplates.nuspec</NuspecFile>
+    <PackageOutputPath>..\_dist\</PackageOutputPath>
+  </PropertyGroup>
+
+  <!-- "_GetOutputItemsFromPack" also reads the .nuspec, and it runs before "GenerateNuspec",
+       so the nuspec properties have to be ready by then too. -->
+  <Target Name="PreparePackageProperties" BeforeTargets="GenerateNuspec;_GetOutputItemsFromPack">
+
+    <!-- READ "RELEASE-NOTES.txt" FILE AND CONFIGURE RELEASE NOTES TEXT -->
+    <ReadLinesFromFile File="../RELEASE-NOTES.txt">
+      <Output TaskParameter="Lines" ItemName="ReleaseNoteLines" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <PackageReleaseNotes>@(ReleaseNoteLines, '%0a')v.0.0</PackageReleaseNotes>
+      <PackageReleaseNotes>$(PackageReleaseNotes.Replace('&lt;','&amp;lt;'))</PackageReleaseNotes>
+      <PackageReleaseNotes>$(PackageReleaseNotes.Replace('&gt;','&amp;gt;'))</PackageReleaseNotes>
+      <PackageReleaseNotes>$([System.Text.RegularExpressions.Regex]::Match($(PackageReleaseNotes), "^(v\.[\d\.]+.+?)v\.[\d\.]+", System.Text.RegularExpressions.RegexOptions.Singleline).Groups[1].Value)</PackageReleaseNotes>
+      <PackageReleaseNotes>$(PackageReleaseNotes)%0aTo see all the change logs, please visit the following URL.%0a- $(RepositoryUrl)blob/main/RELEASE-NOTES.txt</PackageReleaseNotes>
+    </PropertyGroup>
+
+    <!-- CONFIGURE NUSPEC PROPERTIES -->
+    <PropertyGroup>
+      <RepositoryCommit></RepositoryCommit>
+      <NuspecProperties>version=$(ExtensibleGatewayVersion)</NuspecProperties>
+      <NuspecProperties>copyright=$(Copyright);$(NuspecProperties)</NuspecProperties>
+      <NuspecProperties>repositoryUrl=$(RepositoryUrl);$(NuspecProperties)</NuspecProperties>
+      <NuspecProperties>releaseNotes=$(PackageReleaseNotes);$(NuspecProperties)</NuspecProperties>
+    </PropertyGroup>
+
+  </Target>
+
+</Project>

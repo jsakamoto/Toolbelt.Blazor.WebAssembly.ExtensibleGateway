@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Toolbelt.Blazor.WebAssembly.ExtensibleGateway.Extension.ProjectTemplates</id>
+    <version>$version$</version>
+    <description>
+      Templates for a Blazor WebAssembly Extensible Gateway extension project.
+    </description>
+    <authors>J.Sakamoto</authors>
+    <copyright>$copyright$</copyright>
+    <tags>blazor blazor-webassembly blazor-wasm gateway</tags>
+    <license type="expression">MPL-2.0</license>
+    <projectUrl>$repositoryUrl$</projectUrl>
+    <repository type="git" url="$repositoryUrl$" />
+    <icon>nupkg-icon.png</icon>
+    <readme>README.md</readme>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+  </metadata>
+  <files>
+    <file src="..\.assets\nupkg-icon.png" target="nupkg-icon.png" />
+    <file src="Content\" target="Content" exclude="**\obj\**;**\bin\**;**\.vs\**;**\.vscode\**;**\*.suo;**\*.user" />
+    <file src="..\README.md" target="README.md" />
+  </files>
+</package>

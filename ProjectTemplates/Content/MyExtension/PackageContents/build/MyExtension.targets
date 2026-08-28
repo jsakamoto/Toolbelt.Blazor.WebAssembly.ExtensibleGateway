@@ -1,0 +1,13 @@
+<Project>
+
+  <Target Name="BzExGateway_MyExtensionSafe_PrepareResponseFile" BeforeTargets="BzExGateway_GenerateResponseFile">
+    <ItemGroup>
+      <BzExGatewayAssemblyPath Include="$(MSBuildThisFileDirectory)../tools/net11.0/MyExtension.dll" />
+      <!--
+      <BzExGatewayEnvValue Include="NAME1=value1" />
+      <BzExGatewayEnvValue Include="NAME2=value2" />
+      -->
+    </ItemGroup>
+  </Target>
+
+</Project>

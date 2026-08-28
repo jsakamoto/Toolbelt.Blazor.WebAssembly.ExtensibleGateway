@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/README/">
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path="RELEASE-NOTES.txt" />
+    <File Path="THIRD-PARTY-NOTICES.txt" />
+    <File Path="VersionInfo.props" />
+  </Folder>
+  <Project Path="ExtensibleGateway/ExtensibleGateway.csproj" />
+  <Project Path="ExtensibleGateway.Test/ExtensibleGateway.Test.csproj" />
+  <Project Path="SampleExtension/SampleExtension.csproj" />
+</Solution>

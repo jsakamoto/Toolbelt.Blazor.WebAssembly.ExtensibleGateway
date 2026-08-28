@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "J.Sakamoto",
+  "classifications": ["Web", "Blazor", "WebAssembly"],
+  "groupIdentity": "BlazorWasmGatewayExtension",
+  "identity": "BlazorWasmGatewayExtension.CSharp.1.0",
+  "precedence": "7000",
+  "name": "Blazor WebAssembly Extensible Gateway Extension",
+  "shortName": "blazorwasmgatewayextension",
+  "description": "A project template for creating a Blazor WebAssembly Extensible Gateway Extension.",
+  "defaultName": "ExtensibleGateway.MyExtension",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "HostIdentifier": {
+      "type": "bind",
+      "binding": "HostIdentifier"
+    },
+    "skipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "If specified, skips the automatic restore of the project on create.",
+      "defaultValue": "false"
+    },
+    "MyExtensionSafe": {
+      "type": "generated",
+      "generator": "regex",
+      "dataType": "string",
+      "parameters": {
+        "source": "name",
+        "steps": [
+          { "regex": "^.*\\.", "replacement": "" },
+          { "regex": "\\W", "replacement": "_" }
+        ]
+      },
+      "replaces": "MyExtensionSafe",
+      "fileRename": "MyExtensionSafe"
+    }
+  },
+  "guids": [],
+  "sourceName": "MyExtension",
+  "sources": [
+    {
+      "source": "./",
+      "target": "./",
+      "exclude": [".template.config/**"],
+      "copyOnly": [],
+      "modifiers": []
+    }
+  ],
+  "primaryOutputs": [
+    {
+      "condition": "HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\"",
+      "path": "MyExtension.csproj"
+    }
+  ],
+  "postActions": [
+    {
+      "condition": "(!skipRestore)",
+      "description": "Restore NuGet packages required by this project.",
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore'"
+        }
+      ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ]
+}

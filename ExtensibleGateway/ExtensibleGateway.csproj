@@ -1,0 +1,88 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="../VersionInfo.props" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net11.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <AssemblyName>blazor-extensible-gateway</AssemblyName>
+    <RootNamespace>Toolbelt.Blazor.WebAssembly.ExtensibleGateway</RootNamespace>
+    <PackageId>Toolbelt.Blazor.WebAssembly.ExtensibleGateway</PackageId>
+    <Version>$(ExtensibleGatewayVersion)</Version>
+    <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <PackageTags>blazor,blazor-webassembly,blazorwebassembly,blazorwasm,gateway</PackageTags>
+    <PackageReleaseNotes>(Please write the package release notes in "../RELEASE-NOTES.txt")</PackageReleaseNotes>
+    <PackageOutputPath>../_dist</PackageOutputPath>
+    <Description>An alternative Blazor WebAssembly gateway server that can be extended with additional NuGet packages for custom middleware.</Description>
+    <PackageIcon>nupkg-icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <!-- Microsoft.NET.Sdk.Web disables packing by default. -->
+    <IsPackable>true</IsPackable>
+    <!-- This host is a tool, not a library that other projects consume static web assets from. -->
+    <IncludeStaticWebAssetsInPack>false</IncludeStaticWebAssetsInPack>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../.assets/nupkg-icon.png" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="../README.md" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="../LICENSE" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="../THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="PackageContents/**/*" Pack="true" PackagePath="/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Microsoft.NET.Sdk.Web adds this framework reference implicitly. This package ships a tool,
+         not a library, so consumers must not inherit the framework reference from it. -->
+    <FrameworkReference Update="Microsoft.AspNetCore.App" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineSwitchParser" Version="1.1.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Gateway" Version="$(GatewayPackageVersion)" PrivateAssets="all" ExcludeAssets="build;buildTransitive" GeneratePathProperty="true" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <GatewayToolsDir>$(PKGMicrosoft_AspNetCore_Components_Gateway)/tools</GatewayToolsDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Reference every managed assembly of the stock gateway, so that they are both copied next to
+         our own host assembly and listed in its .deps.json. The stock gateway and this host must
+         live in one single folder: the gateway resolves its own static assets relative to the
+         content root, which we point at AppContext.BaseDirectory. -->
+    <Reference Include="$(GatewayToolsDir)/*.dll" />
+    <None Include="$(GatewayToolsDir)/blazor-gateway.staticwebassets.endpoints.json" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+    <None Include="$(GatewayToolsDir)/web.config" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+    <None Include="$(GatewayToolsDir)/wwwroot/**/*" Link="wwwroot/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+  </ItemGroup>
+
+  <Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec">
+    <ReadLinesFromFile File="../RELEASE-NOTES.txt">
+      <Output TaskParameter="Lines" ItemName="ReleaseNoteLines" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <PackageReleaseNotes>@(ReleaseNoteLines, '%0a')%0av.0.0</PackageReleaseNotes>
+      <PackageReleaseNotes>$(PackageReleaseNotes.Replace('&lt;','&amp;lt;'))</PackageReleaseNotes>
+      <PackageReleaseNotes>$(PackageReleaseNotes.Replace('&gt;','&amp;gt;'))</PackageReleaseNotes>
+      <PackageReleaseNotes>$([System.Text.RegularExpressions.Regex]::Match($(PackageReleaseNotes), "^(v\.[\d\.]+.+?)v\.[\d\.]+", System.Text.RegularExpressions.RegexOptions.Singleline).Groups[1].Value)</PackageReleaseNotes>
+      <PackageReleaseNotes>$(PackageReleaseNotes)%0aTo see all the change logs, please visit the following URL.%0a- $(RepositoryUrl)blob/main/RELEASE-NOTES.txt</PackageReleaseNotes>
+    </PropertyGroup>
+  </Target>
+
+  <!-- Pack the whole build output - our host, the stock gateway assemblies, and the gateway's own
+       static assets - as one flat "tools/net11.0" folder. The metadata references are qualified
+       with the item type name so that MSBuild batches over this item list alone. -->
+  <Target Name="BundleAssemblies" BeforeTargets="GenerateNuspec;_GetPackageFiles" AfterTargets="Build">
+    <ItemGroup>
+      <BzExGatewayOutputFile Include="$(TargetDir)**/*" Exclude="$(TargetDir)*.exe" />
+      <None Include="@(BzExGatewayOutputFile)" Pack="true" PackagePath="/tools/$(TargetFramework)/%(BzExGatewayOutputFile.RecursiveDir)%(BzExGatewayOutputFile.Filename)%(BzExGatewayOutputFile.Extension)" />
+    </ItemGroup>
+  </Target>
+
+</Project>

@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <AssemblyName>MyExtension</AssemblyName>
+    <PackageId>MyExtension</PackageId>
+    <Version>1.0.0</Version>
+    <PackageIcon>nupkg-icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <!-- This extension is loaded by path, and its dependencies are found by looking into the folder
+         it lives in, so every dependency has to sit next to this extension assembly. -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- PrivateAssets keeps this out of the "frameworkReferences" section of the .nuspec. -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="nupkg-icon.png" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="README.md" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="PackageContents/**/*" Pack="true" PackagePath="/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- The gateway loads this extension from the "tools/net11.0" folder of the package, not from
+       "lib", so the build output has to be packed into that folder. -->
+  <Target Name="BundleAssemblies" BeforeTargets="GenerateNuspec;_GetPackageFiles" AfterTargets="Build">
+    <ItemGroup>
+      <None Include="$(TargetDir)/*.dll" Pack="true" PackagePath="/tools/$(TargetFramework)" />
+    </ItemGroup>
+  </Target>
+
+</Project>

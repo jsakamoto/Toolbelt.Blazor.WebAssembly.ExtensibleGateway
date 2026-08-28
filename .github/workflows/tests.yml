@@ -1,0 +1,24 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  perform-tests:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v6
+
+      # Install .NET SDK
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 11.0.x
+          dotnet-quality: preview
+
+      # Perform tests
+      - name: Perform tests
+        run: dotnet test --project ./ExtensibleGateway.Test/ExtensibleGateway.Test.csproj --output detailed
