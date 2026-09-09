@@ -1,2 +1,5 @@
+v.11.0.0-rc.1
+- Improve: Updated the underlying Microsoft.AspNetCore.Components.Gateway dependency to version 11.0.0-rc.1.
+
 v.11.0.0-preview.7
 - 1st release.

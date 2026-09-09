@@ -44,7 +44,7 @@ Find the following `PackageReference` in your `.csproj` file.
 Then replace it with this one.
 
 ```xml
-<PackageReference Include="Toolbelt.Blazor.WebAssembly.ExtensibleGateway" Version="11.0.0-preview.7" PrivateAssets="all" />
+<PackageReference Include="Toolbelt.Blazor.WebAssembly.ExtensibleGateway" Version="11.0.0-rc.1" PrivateAssets="all" />
 ```
 
 ### 2. Install extension packages

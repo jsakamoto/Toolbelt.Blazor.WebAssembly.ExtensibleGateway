@@ -25,7 +25,7 @@ public class SampleAppE2ETests
         using var workspace = WorkDirectory.CreateCopyFrom(PathUtils.SolutionDir, entry => entry.Name is not "bin" and not "obj" and not ".vs");
 
         // WHEN: Run the sample program with dotnet run inside the container
-        await using var container = new ContainerBuilder("mcr.microsoft.com/dotnet/sdk:11.0-preview")
+        await using var container = new ContainerBuilder("mcr.microsoft.com/dotnet/sdk:11.0")
             .WithBindMount(workspace, "/work")
             .WithWorkingDirectory("/work/SampleApp")
             .WithEntrypoint("dotnet", "run", "--no-launch-profile")
