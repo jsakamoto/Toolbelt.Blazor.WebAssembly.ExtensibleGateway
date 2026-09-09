@@ -4,6 +4,9 @@
 
 An alternative Blazor WebAssembly gateway server that can be extended with additional NuGet packages for custom middleware.
 
+> [!NOTE]
+> This package is for .NET 11 or later. If your app targets .NET 10, use [Toolbelt.Blazor.WebAssembly.ExtensibleDevServer](https://www.nuget.org/packages/Toolbelt.Blazor.WebAssembly.ExtensibleDevServer/) instead.
+
 ## What is this?
 
 In a standalone Blazor WebAssembly project on .NET 11, the development server is provided by the `Microsoft.AspNetCore.Components.Gateway` NuGet package. This package works well out of the box, but it does not offer any way to customize or extend the gateway's behavior.
