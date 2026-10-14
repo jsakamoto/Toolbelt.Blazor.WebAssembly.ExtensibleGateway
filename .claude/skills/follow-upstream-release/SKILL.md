@@ -39,7 +39,19 @@ for prerelease version strings and for the reflection-based invocation this repo
    v.X.Y.Z
    - Improve: Updated the underlying Microsoft.AspNetCore.Components.Gateway dependency to version X.Y.Z.
    ```
-6. Build and test:
+6. Update the NuGet packages referenced by `ExtensibleGateway.Test/ExtensibleGateway.Test.csproj` to
+   the latest stable versions available at that moment (see the `dotnet-test-projects` skill):
+   ```
+   dotnet list ./ExtensibleGateway.Test/ExtensibleGateway.Test.csproj package --outdated
+   ```
+   - Bump every `PackageReference` it reports, including `NUnit`, `NUnit3TestAdapter`,
+     `Microsoft.NET.Test.Sdk`, `Testcontainers`, `ChainingAssertion-NUnit.Bin`, `XProcess`, and the
+     `Toolbelt.*` packages. If the command cannot reach a package, check the nuget.org flat-container
+     index JSON instead.
+   - Do not touch `GatewayPackageVersion` or the stock Gateway reference here; step 2 owns them.
+   - If a bump needs a test code change, or a package has no stable release for the new setup, report
+     it rather than silently swapping in a replacement.
+7. Build and test:
    ```
    dotnet pack -c Release
    dotnet test --project ./ExtensibleGateway.Test/ExtensibleGateway.Test.csproj --output detailed
@@ -67,7 +79,7 @@ the package family. Each of those repositories has its own `follow-upstream-rele
 half of the work — run this repository's bump and tests first, then theirs.
 
 The new `ExtensibleGateway` version is typically **not yet published on nuget.org** at this point.
-After packing this repository (step 6 above), copy the resulting `.nupkg` from this repo's `_dist/`
+After packing this repository (step 7 above), copy the resulting `.nupkg` from this repo's `_dist/`
 folder into each extension repository's `_local-packages/` folder so their tests can restore it
 instead of failing to restore — see each extension's `AGENTS.md` for that mechanism.
 
