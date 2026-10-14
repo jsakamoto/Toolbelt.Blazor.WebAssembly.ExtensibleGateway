@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
-    <GatewayPackageVersion>11.0.0-rc.1.26425.128</GatewayPackageVersion>
-    <ExtensibleGatewayVersion>11.0.0-rc.1</ExtensibleGatewayVersion>
+    <GatewayPackageVersion>11.0.0-rc.2.26504.105</GatewayPackageVersion>
+    <ExtensibleGatewayVersion>11.0.0-rc.2</ExtensibleGatewayVersion>
     <SampleExtensionVersion>11.0.0</SampleExtensionVersion>
     <Copyright>Copyright © 2026 J.Sakamoto, Mozilla Public License 2.0</Copyright>
     <Authors>J.Sakamoto</Authors>
